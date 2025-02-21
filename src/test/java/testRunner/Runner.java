@@ -11,7 +11,7 @@ import io.cucumber.testng.CucumberOptions;
 							"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
 							"rerun:target/failed_scenarios.txt" }, // captures failed secnarios in a txt file
 			monochrome = false, // console output color
-//			tags = "@MenuBar1", // tags from feature file
+			tags = "@class_Scenarios", // tags from feature file
 			dryRun = !true //To add new method give true
 			)
 			
