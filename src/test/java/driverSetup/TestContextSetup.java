@@ -19,9 +19,10 @@ public class TestContextSetup {
 	private BatchPage batchPage;
 	private ClassPage classPage;
 	private LogoutPage logoutPage;
+	
 	public TestContextSetup(BaseClass baseClass) {
 		this.baseClass = baseClass;
-		this.driver = baseClass.WebDriverManager();
+		this.driver = (WebDriver) baseClass.WebDriverManager();
 	}	
 	
 	public void launchUrl() {
@@ -32,12 +33,12 @@ public class TestContextSetup {
 	}
 	
 	public String getPropUsername() {
-		String UserName = baseClass.getStringProperty("username");
+		String UserName = baseClass.getStringProperty("Username");
 		return UserName;
 	}
 	
 	public String getPropPassword() {
-		String Password =baseClass.getStringProperty("password");
+		String Password =baseClass.getStringProperty("Password");
 		return Password;
 	}
 	
@@ -77,6 +78,8 @@ public class TestContextSetup {
 		String classURL = baseClass.getStringProperty("classUrl");
 		return classURL;
 	}
+	
+	
 }
 
 

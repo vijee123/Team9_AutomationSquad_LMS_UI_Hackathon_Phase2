@@ -3,4 +3,11 @@ test-output/*
 reports/*
 target/*
 /target/
-/TestData/*
+testData/*
+/target/
+/.settings/
+/.settings/
+/logs/
+/PDFReport/
+/bin/
+/My screenshot/

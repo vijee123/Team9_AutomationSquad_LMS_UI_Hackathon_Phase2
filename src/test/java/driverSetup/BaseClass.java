@@ -18,7 +18,7 @@ public class BaseClass {
 			FileInputStream fis = new FileInputStream("src/test/resources/Config.properties");
 			prop = new Properties();
 			prop.load(fis);
-		} catch (Exception e) {
+			} catch (Exception e) {
 			System.out.println("Exception" + e.getMessage());
 		}
 		System.out.println("Inside BaseClass called ........................");
@@ -50,7 +50,6 @@ public class BaseClass {
 					driver.manage().window().maximize();
 					driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 				}
-				
 				
 			}
 		} catch (Exception e) {

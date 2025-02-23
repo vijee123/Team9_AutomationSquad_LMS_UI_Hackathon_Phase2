@@ -32,8 +32,8 @@ public class Hooks {
 			utilities.LoggerLoad.error("Steps Failed, Taking Screenshot");
 			final byte[] screenshot = ((TakesScreenshot) context.getDriver()).getScreenshotAs(OutputType.BYTES);
 			scenario.attach(screenshot, "image/png", "My screenshot");
-			Allure.addAttachment("MyScreenshot",
-					new ByteArrayInputStream(((TakesScreenshot) context.getDriver()).getScreenshotAs(OutputType.BYTES)));
+			//Allure.addAttachment("MyScreenshot",
+					//new ByteArrayInputStream(((TakesScreenshot) context.getDriver()).getScreenshotAs(OutputType.BYTES)));
 		}
 	}
 }
