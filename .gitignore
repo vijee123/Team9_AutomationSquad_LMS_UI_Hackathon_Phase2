@@ -3,7 +3,6 @@ test-output/*
 reports/*
 target/*
 /target/
-testData/*
 /target/
 /.settings/
 /.settings/
