@@ -102,12 +102,15 @@
         <artifactId>guava</artifactId>
         <version>31.1-jre</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.languagetool/languagetool-core -->
+    
+<!-- https://mvnrepository.com/artifact/org.languagetool/languagetool-core -->
 <dependency>
     <groupId>org.languagetool</groupId>
     <artifactId>languagetool-core</artifactId>
     <version>6.4</version>
 </dependency>
+
+
 <!-- https://mvnrepository.com/artifact/org.testng/testng -->
 <dependency>
     <groupId>org.testng</groupId>
@@ -115,11 +118,14 @@
     <version>7.11.0</version>
     <scope>test</scope>
 </dependency>
+
+<!-- https://mvnrepository.com/artifact/org.languagetool/language-en -->
 <dependency>
     <groupId>org.languagetool</groupId>
     <artifactId>language-en</artifactId>
-    <version>6.1</version>
+    <version>6.4</version>
 </dependency>
+
 
 <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
 <dependency>

@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.BritishEnglish;
+import org.languagetool.rules.RuleMatch;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -36,6 +37,7 @@ public class BasePage {
 	private WebElement paginationText; // common for all
 	@FindBy(xpath = "//span[@class='p-paginator-current ng-star-inserted' and (contains(text(),'Showing'))]")
 	private WebElement showingEntriesMsg;
+	
 	// ----------------Common Methods for all Modules------------------
 	public void justClick() {
 		Actions myAction = new Actions(driver);
@@ -45,6 +47,7 @@ public class BasePage {
 		WebDriverWait myWait = new WebDriverWait(driver, Duration.ofSeconds(5));
 		myWait.until(ExpectedConditions.visibilityOf(element));
 	}
+	
 	// -------------------- Find Broken Link -------------------------------
 	public Boolean findBrokenLinks(List<WebElement> ListOfPageLinks) {
 		List<WebElement> allLinks = ListOfPageLinks;
@@ -72,6 +75,7 @@ public class BasePage {
 				System.out.println("Link is either null or empty: " + link.getText());
 			}
 		}
+		
 		// Print a message if there are broken links
 		if (hasBrokenLinks) {
 			System.out.println("There are broken links on the page.");
@@ -81,33 +85,37 @@ public class BasePage {
 			return false;
 		}
 	}
+	
 	// -------------------- Check Spelling for Login and DashBoard
-	public void checkSpelling() throws Exception {
-		Thread.sleep(500);
-		String currentPageUrl = driver.getCurrentUrl();
-		System.out.println("Current URL: " + currentPageUrl);
-		WebElement bodyElement = driver.findElement(By.tagName("body"));
-		String pageText = bodyElement.getText();
-		System.out.println("Page Text: \n" + pageText);
-		JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
-		try {
-			List<org.languagetool.rules.RuleMatch> matches = langTool.check(pageText);
-			if (matches.isEmpty()) {
-				System.out.println("No spelling mistakes found.");
-			} else {
-				System.out.println("Spelling mistakes found:");
-				for (org.languagetool.rules.RuleMatch match : matches) {
-					System.out.println("Spelling mistakes found:" + match);
-					System.out.println("Context: " + match.getShortMessage());
-					System.out.println("Potential typo at line " + match.getLine() + ", column " + match.getColumn());
-					System.out.println("Suggested corrections: "
-							+ org.apache.commons.lang3.StringUtils.join(match.getSuggestedReplacements()));
+		public void checkSpelling() throws Exception {
+			Thread.sleep(500);
+			String currentPageUrl = driver.getCurrentUrl();
+			System.out.println("Current URL: " + currentPageUrl);
+			WebElement bodyElement = driver.findElement(By.tagName("body"));
+			String pageText = bodyElement.getText();
+			System.out.println("Page Text Verified is: \n" + pageText);
+			JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
+			try {
+				List<org.languagetool.rules.RuleMatch> matches = langTool.check(pageText);
+				if (matches.isEmpty()) {
+					System.out.println("No spelling mistakes found.");
+				} else {
+					for (org.languagetool.rules.RuleMatch match : matches) {
+						System.out.println("Spelling mistakes found with word: " + match);
+					//	System.out.println("Context: " + match.getShortMessage());
+					//  System.out.println("Potential typo at line " + match.getLine() + ", column " + match.getColumn());
+						System.out.println("Suggested correction is: "
+								+ org.apache.commons.lang3.StringUtils.join(match.getSuggestedReplacements()));
+					}
 				}
+
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-	}
+	
+	
+	
 	//-------------------Sort check-------------------------
 	public boolean commonSortCheck(WebElement header, List<WebElement> eles) {
 		justClick();
@@ -133,6 +141,8 @@ public class BasePage {
 		}
 		return true;
 	}
+	
+	
 	// ------------------------Pagination-------------------------
 	public boolean currentPageValidation(String page) {
 		boolean correctPage = false;
@@ -169,6 +179,7 @@ public class BasePage {
 		}
 		return correctPage;
 	}
+	
 	public boolean paginationValidation() throws InterruptedException {
 		justClick();
 		Thread.sleep(3000);
@@ -190,6 +201,7 @@ public class BasePage {
 		}
 		return pagination;
 	}
+	
 	//-------------------Footer Validation-----------------
 	public boolean footerValidation(String moduleName) {
 		boolean footer = false;
