@@ -1,4 +1,4 @@
-@class_Scenarios 
+@login_Scenarios
 Feature: Class Module 
 
 Background: Admin logged on the Dashboard page  
