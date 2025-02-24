@@ -1,19 +1,26 @@
 package utilities;
-
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.NumberToTextConverter;
+import org.apache.poi.xssf.usermodel.XSSFFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
 public class ExcelReader {
 	
 		public List<Map<String, String>> getData(String excelFilePath, String sheetName)
@@ -138,6 +145,51 @@ public class ExcelReader {
 				}
 			}
 			return columnMapdata;
-		}	
-		
+		}
+		   public static Map<String, String> getRowData(String sheetName, String scenarioName) throws IOException {
+		        // Define the file path
+		    //    String filePath = System.getProperty("user.dir") + "\\testData\\testData.xlsx";
+			   String filePath = "C:\\Users\\sridh\\git\\Team9_AutomationSquad_LMS_UI_Hackathon_Phase2\\src\\test\\resources\\TestData.xlsx";
+		        // Open the file input stream
+		        FileInputStream file = new FileInputStream(new File(filePath));
+		        Workbook workbook = new XSSFWorkbook(file);
+		        Sheet sheet = workbook.getSheet(sheetName);
+		        // Create a map to store key-value pairs
+		        Map<String, String> dataMap = new HashMap<>();
+		        // Check if the sheet exists
+		        if (sheet == null) {
+		            System.out.println("Sheet \"" + sheetName + "\" not found.");
+		            workbook.close();
+		            return dataMap;
+		        }
+		        // Read the header row (first row)
+		        Row headerRow = sheet.getRow(0);
+		        if (headerRow == null) {
+		            System.out.println("Header row not found in sheet: " + sheetName);
+		            workbook.close();
+		            return dataMap;
+		        }
+		        // Iterate over rows to find the matching scenarioName
+		        Iterator<Row> rowIterator = sheet.iterator();
+		        while (rowIterator.hasNext()) {
+		            Row row = rowIterator.next();
+		            Cell firstCell = row.getCell(0); // Assuming first column contains scenario names
+		            if (firstCell != null && firstCell.getCellType() == CellType.STRING &&
+		                    firstCell.getStringCellValue().equalsIgnoreCase(scenarioName)) {
+		                // Match found: Store column values in a Map (Header -> Cell Value)
+		                for (int i = 0; i < row.getLastCellNum(); i++) {
+		                    String header = headerRow.getCell(i).getStringCellValue();
+		                    Cell cell = row.getCell(i);
+		                    String value = (cell == null) ? "" : cell.toString(); // Handle empty cells
+		                    dataMap.put(header, value);
+		                }
+		                break; // Stop after finding the first matching row
+		            }
+		        }
+		        // Close workbook and file input stream
+		        workbook.close();
+		        file.close();
+		       
+		        return dataMap; // Ensure proper return statement
+		    }
 }

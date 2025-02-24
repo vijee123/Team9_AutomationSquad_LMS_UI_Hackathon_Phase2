@@ -14,7 +14,7 @@ public class ClassSteps {
 	private TestContextSetup context;// pico
     private LoginPage loginPage;
     private ClassPage classPage;
-    public ClassSteps(TestContextSetup context) {
+    public ClassSteps(TestContextSetup context) throws InterruptedException {
         this.context = context;
         this.classPage = context.getClassPage();
         this.loginPage = context.getLoginPage();

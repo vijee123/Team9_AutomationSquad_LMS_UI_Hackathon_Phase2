@@ -21,13 +21,19 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+
+
 import lombok.Data;
 @Data
 public class BasePage {
+	protected static final long IMPLICIT_WAIT = 10;
+
 	WebDriver driver;
+	String url = "https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/";
 	public BasePage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
+		
 	}
 	// ----------------------WebElements-------------------------------
 	@FindBy(xpath = "//div[contains(text(),'In total there are') and contains(text(),'programs.')] ")
@@ -107,6 +113,25 @@ public class BasePage {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	public boolean isViewable(WebElement element) {
+		try {
+			WebElement ele = new WebDriverWait(driver, Duration.ofSeconds(IMPLICIT_WAIT))
+					.until(ExpectedConditions.visibilityOf(element));
+
+			return ele.isDisplayed();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public String getText(WebElement element) {
+
+		WebElement textElement = new WebDriverWait(driver, Duration.ofSeconds(IMPLICIT_WAIT))
+				.until(ExpectedConditions.visibilityOf(element));
+		return textElement.getText();
 	}
 	//-------------------Sort check-------------------------
 	public boolean commonSortCheck(WebElement header, List<WebElement> eles) {

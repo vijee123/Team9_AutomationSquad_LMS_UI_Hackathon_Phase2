@@ -1,6 +1,5 @@
 package testRunner;
 
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -11,35 +10,24 @@ import driverSetup.BaseClass;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
-
-@CucumberOptions(
-        features = "src/test/resources/features",
-        glue = "stepDefinitions",
-        tags="@login_Scenarios",
-        plugin = {"pretty", "html:target/cucumber-report.html"}
-)
+@CucumberOptions(features = "src/test/resources/features", glue = "stepDefinitions", tags = "@login", plugin = {
+		"pretty", "html:target/cucumber-report.html" })
 public class Runner extends AbstractTestNGCucumberTests {
-    private static ThreadLocal<String> browser = new ThreadLocal<>();
-    private BaseClass base = BaseClass.getInstance();
+	private static ThreadLocal<String> browser = new ThreadLocal<>();
+	private BaseClass base = BaseClass.getInstance();
 
-    @Parameters("browser")
-    @BeforeMethod
-    public void setup(@Optional("chrome") String browserName) {
-    	if(browserName.equalsIgnoreCase("chrome")) {
-    		browser.set(browserName); // Set the browser dynamically
-            base.setBrowser(browserName); // Pass browser name to BaseClass
-            base.initializeDriver(); // Initialize WebDriver
-    	}else if(browserName.equalsIgnoreCase("firefox")) {
-    		browser.set(browserName); // Set the browser dynamically
-            base.setBrowser(browserName); // Pass browser name to BaseClass
-            base.initializeDriver(); // Initialize WebDriver
-    	}
-              
-        
-    }
-    
-    @AfterMethod
-    public void tearDown() {
-        base.quitDriver(); // Quit WebDriver after test execution
-    }
+	@Parameters("browser")
+	@BeforeMethod
+	public void setup(@Optional("chrome") String browserName) {
+
+		browser.set(browserName); // Set the browser dynamically
+		base.setBrowser(browserName); // Pass browser name to BaseClass
+		base.initializeDriver(); // Initialize WebDriver
+
+	}
+
+	@AfterMethod
+	public void tearDown() {
+		base.quitDriver(); // Quit WebDriver after test execution
+	}
 }
