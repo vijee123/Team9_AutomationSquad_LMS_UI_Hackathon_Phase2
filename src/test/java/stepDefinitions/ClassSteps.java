@@ -74,7 +74,7 @@ public class ClassSteps {
     @When("Update the fields with valid data and click save")
     public void update_the_fields_with_valid_data_and_click_save() {
     	try {
-            Map<String, String> rowData = ExcelReader.getRowData("Sheet1", "ValidData");
+            Map<String, String> rowData = ExcelReader.getRowData("classEdit", "updateclass");
 
             classPage.updateFieldsWithValidData(rowData.get("classdescription"), rowData.get("staffname"));
             classPage.clickSaveButton();
