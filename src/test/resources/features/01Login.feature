@@ -64,8 +64,7 @@ Feature: Login Page Verification
   Scenario: Verify input descriptive text in password field
     Then Admin should see password in gray color
 
-   #@Login  
-   #Scenario: Login to the application with Valid details
+  #Scenario: Login to the application with Valid details
      #Given Admin logs into the application 
 
   Scenario Outline: Validate login with different data in all field
@@ -82,7 +81,7 @@ Feature: Login Page Verification
       | loginData | withoutPwd  |
       | loginData | withoutRole |
 
-  @Keyboard
+  
   Scenario Outline: verify login button action through mouse
     When Admin enter required data from login "<sheet>" for required "<scenario>" and clicks login button
     Then Admin should land on dashboard page
