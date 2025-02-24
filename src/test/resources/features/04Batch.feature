@@ -1,8 +1,8 @@
 Feature: Batch Page Navigation
 
   Background: 
-    Given Admin successfully logged on to the LMS Portal
-
+   # Given Admin successfully logged on to the LMS Portal for batch
+     Given Admin logs into the application
   Scenario: Verify Admin Navigate to Batch page successfully
     Given For batch Admin is on the home page
     When Admin clicks on the Batch menu from the header
@@ -42,7 +42,7 @@ Feature: Batch Page Navigation
     Given For batch Admin is on the home page
     When Admin clicks on the Batch menu from the header
     Then Admin should see the checkbox in each row in the Batch Page
-
+    
   Scenario: Validate Datatable headers
     Given For batch Admin is on the home page
     When Admin clicks on the Batch menu from the header
@@ -64,7 +64,7 @@ Feature: Batch Page Navigation
     Then Admin should see sub-menu in menu bar as Add New Batch
 
   Scenario: Validate Admin able to click on the Add New Batch Option
-    Given Admin is on the home page
+    Given For batch Admin is on the home page
     When Admin clicks on Add New Batch under the Batch menu bar
     Then Admin should see the Batch Details pop-up window
 
@@ -76,37 +76,58 @@ Feature: Batch Page Navigation
   Scenario: Validate batch name prefix selected program name
     Given Admin is on the Batch Details Pop Up Window
     When Admin selects program name present in the dropdown of batch page
-    Then Admin should see selected program name in the batch name prefix box
+    Then Admin should see selected program name in the batch name prefix box      
 
-  Scenario: Validate batch name suffix box should accept only numbers
+  Scenario Outline: Validate batch name suffix box should accept only numbers
     Given Admin is on the Batch Details Pop Up Window
-    When Admin enters alphabets in batch name suffix box
+    When Admin enters alphabets data from "<sheet>" for required "<scenario>" in batch name suffix box
     Then Admin should get error message below the text box of respective field for batch page
+     Examples:
+    |sheet  |scenario      |
+    |Batch  |invalidSuffix |
 
-  Scenario: Validate batch name prefix box is not editable
+  Scenario Outline: Validate batch name prefix box is not editable
     Given Admin is on the Batch Details Pop Up Window
-    When Admin enters alphabets in batch name prefix box
+    When Admin enters alphabets data from "<sheet>" for required "<scenario>" in batch name prefix box
     Then Admin should see empty text box for batch page
+    
+    Examples:
+    |sheet  |scenario      |
+    |Batch  |invalidPrefix |
 
-  Scenario: Validate input data only for mandatory fields
+    Scenario Outline: Validate input data only for mandatory fields
     Given Admin is on the Batch Details Pop Up Window
-    When Admin enters the data only to the mandatory fields and clicks save button for batch page
-    Then Admin should get a successful message for batch page
-
-  Scenario: Validate input data missing for mandatory fields
+    When Admin enters the data only to the mandatory fields from "<sheet>" for required "<scenario>" and clicks save button for batch page
+    Then Admin should get a successful message for batch page 
+    Examples:
+    |sheet  |scenario       |
+    |Batch  |mandatoryFields|
+    
+  Scenario Outline: Validate input data missing for mandatory fields
     Given Admin is on the Batch Details Pop Up Window
-    When Admin leaves blank one of the mandatory fields for batch page
+    When Admin leaves blank one of the mandatory fields from "<sheet>" for required "<scenario>" for batch page
     Then Admin should get an error message on the respective mandatory field for batch page
+    
+     Examples:
+    |sheet  |scenario       |
+    |Batch  |oneFieldBlank  |
+    
 
-  Scenario: Validate save button in Batch details pop up
+  Scenario Outline: Validate save button in Batch details pop up
     Given Admin is on the Batch Details Pop Up Window
-    When Admin enters the valid data to all the mandatory fields and clicks save button for batch page
+    When Admin enters the valid data to all the mandatory fields from "<sheet>" for required "<scenario>" and clicks save button for batch page
     Then Admin should get a successful message for batch page
-
-  Scenario: Validate cancel button in Batch details pop up
+    Examples:
+    |sheet       |scenario       |
+    |Batch  |mandatoryFields|
+    
+  Scenario Outline: Validate cancel button in Batch details pop up
     Given Admin is on the Batch Details Pop Up Window
-    When Admin enters the valid data to all the mandatory fields and clicks cancel button for batch page
-    Then Admin can see the batch details popup closes without creating any batch
+    When Admin enters the valid data to all the mandatory fields from "<sheet>" for required "<scenario>" and clicks cancel button for batch page
+    Then Admin can see the batch details popup closes without creating any batch 
+    Examples:
+    |sheet  |scenario  |
+    |Batch  |mandatoryFields|
 
   Scenario: Validate close icon on the batch details pop up
     Given Admin is on the Batch Details Pop Up Window
@@ -114,37 +135,40 @@ Feature: Batch Page Navigation
     Then Batch details pop up closes
 
   Scenario: Validate Edit icon feature in any row
-    Given Admin is on the Batch page
+    Given Admin is on the batch page
     When Admin clicks the edit icon for batch page
-    Then Admin should see the Batch details pop up window
+    Then Admin should see the Batch Details pop-up window
 
   Scenario: Validate program name value is disabled to edit
-    Given Admin is on the Batch page
+    Given Admin is on the batch page
     When Admin clicks the edit icon for batch page
     Then Admin should see Program name value field is disabled for editing for batch page
 
   Scenario: Validate batch name value is disabled to edit
-    Given Admin is on the Batch page
+    Given Admin is on the batch page
     When Admin clicks the edit icon for batch page
     Then Admin should see batch name value field is disabled for editing
 
-  Scenario: Validate editing description and No of classes fields with invalid data in the pop up
+  Scenario Outline: Validate editing description and No of classes fields with invalid data in the pop up
+    Given Admin is on the batch page
+    When Admin updates any fields with invalid data from "<sheet>" for required "<scenario>" and clicks save button for batch page
+    Then Admin should get an error message under the respective field for batch page for invalid data
+   Examples:
+    |sheet  |scenario |
+    |Batch  |Invalid  |
+    
+  Scenario Outline: Validate save button in Batch details pop up
     Given Admin is on the Batch Details Page
-    When Admin updates any fields with invalid data and clicks save button for batch page
-    Then Admin should get an error message under the respective field for batch page
-
-  Scenario: Validate save button in Batch details pop up
-    Given Admin is on the Batch Details Page
-    When Admin enters the valid data to all the mandatory fields and clicks save button for batch page
+    When Admin enters the valid data to all the mandatory fields from "<sheet>" for required "<scenario>" and clicks save button for batch page
     Then Admin should get a successful message for editing the batch for batch page
-
-  Scenario: Validate cancel button in Batch details pop up
-    Given Admin is on the Batch Details Page
-    When Admin enters the valid data to all the mandatory fields and clicks cancel button for batch page
-    Then Admin can see the batch details popup closes without editing the batch
+     Examples:
+    |sheet  |scenario         |
+    |Batch  |mandatoryFields  |
+    
+ 
 
   Scenario: Validate delete icon on any row
-    Given Admin is on the Batch page
+    Given Admin is on the batch page
     When Admin clicks the delete icon on any row for batch page
     Then Admin should see the confirm alert box with yes and no button for batch page
 
@@ -164,41 +188,41 @@ Feature: Batch Page Navigation
     Then Admin should see the alert box closed for batch page
 
   Scenario: Validate single row delete with checkbox
-    Given Admin is on the Batch page
+    Given Admin is on the batch page
     When Admin clicks on the delete icon under the Manage batch header
     Then The respective row in the table should be deleted for batch page
 
   Scenario: Validate multiple row delete with checkbox
-    Given Admin is on the Batch page
-    When Admin clicks on the delete icon under the Manage batch header
+    Given Admin is on the batch page
+    When Admin clicks on the delete icon under the Manage batch header for multiple rows
     Then The respective rows in the table should be deleted for batch page
 
   Scenario: Validate next page link
-    Given Admin is on the Batch page
+    Given Admin is on the batch page
     When Admin clicks the next page link on the data table for batch page
     Then Admin should see the next enabled link for batch page
 
   Scenario: Validate last page link
-    Given Admin is on the Batch page
+    Given Admin is on the batch page
     When Admin clicks the last page link on the data table for batch page
-    Then Admin should see the last page link with the next page link disabled on the table for batch page
+   Then Admin should see the last page link with the next page link disabled on the table for batch page
 
   Scenario: Validate previous page link
-    Given Admin is on the Batch page
+    Given Admin is on the batch page
     When Admin clicks the previous page link on the data table for batch page
     Then Admin should see the previous page on the table for batch page
 
   Scenario: Validate first page link
-    Given Admin is on the Batch page
+    Given Admin is on the batch page
     When Admin clicks the first page link on the data table for batch page
     Then Admin should see the very first page on the data table for batch page
 
   Scenario: Validate search box functionality
-    Given Admin is on the Batch page
+    Given Admin is on the batch page
     When Admin enters the batch name in the search text box
     Then Admin should see the filtered batches in the data table
 
   Scenario: Validate logout option in the header is visible and enabled from the batch page
-    Given Admin is on the Batch page
+    Given Admin is on the batch page
     When Admin clicks on the logout button for batch page
     Then Admin should see the Login screen page from batch page
