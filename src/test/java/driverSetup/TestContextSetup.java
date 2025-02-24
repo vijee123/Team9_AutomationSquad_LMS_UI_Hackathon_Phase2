@@ -42,6 +42,11 @@ public class TestContextSetup {
 		return Password;
 	}
 	
+	public String getPropRole() {
+		String Role = baseClass.getStringProperty("Role");
+		return Role;
+	}
+	
 	public LoginPage getLoginPage() {
 		return (loginPage == null) ? loginPage = new LoginPage(driver) : loginPage;
 	}
