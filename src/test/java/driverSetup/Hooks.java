@@ -1,36 +1,40 @@
 package driverSetup;
 
+import java.io.ByteArrayInputStream;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import io.cucumber.java.After;
+import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
-import io.cucumber.java.BeforeAll;
 import io.cucumber.java.Scenario;
-import org.openqa.selenium.WebDriver;
-
-//import utilities.AddExcelReader;
-import utilities.ExcelReader;
+import io.qameta.allure.Allure;
 import utilities.LoggerLoad;
-//import utilities.applicationData;
-import utilities.LMSUIConstants;
 
 public class Hooks {
-    private BaseClass baseClass = BaseClass.getInstance();
-//    @BeforeAll
-//	public static void before_all() {
-//		applicationData appData = new applicationData();
-//		TestContextSetup.getInstance();
-//		appData.setModuleNameTestDataMap(AddExcelReader.loadExcelData());
-//		applicationData applicationData1 = appData;
-//	}
-//
-//   
+    private TestContextSetup context;
+
+    public Hooks(TestContextSetup context) {
+        this.context = context;
+    }
+
     @Before
     public void setUp(Scenario scenario) {
         LoggerLoad.info("Starting scenario: " + scenario.getName());
+        BaseClass.initializeDriver(); // Initialize driver in a thread-safe manner
     }
 
     @After
     public void tearDown() {
         LoggerLoad.info("Closing WebDriver...");
-        baseClass.quitDriver();
+        BaseClass.quitDriver(); // Ensure driver is quit properly for parallel tests
+    }
+
+    @AfterStep
+    public void afterStep(Scenario scenario) {
+        if (scenario.isFailed()) {
+            LoggerLoad.error("Step Failed, Taking Screenshot");
+            final byte[] screenshot = ((TakesScreenshot) BaseClass.getDriver()).getScreenshotAs(OutputType.BYTES);
+            scenario.attach(screenshot, "image/png", "Failure Screenshot");
+        }
     }
 }

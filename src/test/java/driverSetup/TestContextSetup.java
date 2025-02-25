@@ -1,129 +1,117 @@
 package driverSetup;
 
+import pageObjects.BatchPage;
 import pageObjects.ClassPage;
+import pageObjects.DashboardPage;
 import pageObjects.LoginPage;
-
-
+import pageObjects.LogoutPage;
+import pageObjects.ProgramPage;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
+import lombok.Data;
 
+@Data
 public class TestContextSetup {
-
     private WebDriver driver;
     private LoginPage loginPage;
     private ClassPage classPage;
     private Properties properties;
-    
-    private static TestContextSetup instance = null;
-    private static String browser;
+    private DashboardPage dashboardPage;
+    private ProgramPage programPage;
+    private BatchPage batchPage;
+    private LogoutPage logoutPage;
 
-   
+    private static TestContextSetup instance = null;
     
     public TestContextSetup() {
+        // No need to call initializeDriver() here
+        this.driver = BaseClass.getDriver(); // Get the WebDriver instance
+
         properties = new Properties();
-        try {
-            FileInputStream fis = new FileInputStream("src/test/resources/config.properties");
+        try (FileInputStream fis = new FileInputStream("src/test/resources/Config.properties")) {
             properties.load(fis);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
-    
+
+//    public TestContextSetup() {
+//        // No need to instantiate BaseClass, just use its static methods
+//        BaseClass.initializeDriver();
+//        this.driver = BaseClass.getDriver(); // Get the WebDriver instance
+//
+//        properties = new Properties();
+//        try (FileInputStream fis = new FileInputStream("src/test/resources/config.properties")) {
+//            properties.load(fis);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     public static TestContextSetup getInstance() {
-    	
         if (instance == null) {
             instance = new TestContextSetup();
         }
         return instance;
-    }  
-   
-
-    // Method to initialize the WebDriver based on the properties file
-    private void initializeDriver() {
-        //String browser = properties.getProperty("browser", "chrome").toLowerCase();
-
-        if (browser.equals("chrome")) {
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
-        } else if (browser.equals("firefox")) {
-            WebDriverManager.firefoxdriver().setup();
-            driver = new FirefoxDriver();
-        } else {
-            throw new RuntimeException("Unsupported browser: " + browser);
-        }
-
-        driver.manage().window().maximize();
     }
-
-
-    // Method to load properties from a file
-    private void loadProperties() {
-        properties = new Properties();
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
-            if (input == null) {
-                throw new FileNotFoundException("Property file 'config.properties' not found in the classpath");
-            }
-            properties.load(input);
-        } catch (IOException e) {
-            e.printStackTrace();
+//    public void launchBrowser() {
+//        String browser = properties.getProperty("browser"); // Fetch browser from config.properties
+//        BaseClass.setBrowser(browser); // Set the browser in BaseClass
+//        BaseClass.initializeDriver(); // Initialize WebDriver
+//        this.driver = BaseClass.getDriver(); // Get the WebDriver instance
+//    }
+    public void launchBrowser() {
+        if (this.driver == null) { // Prevent multiple initializations
+            String browser = properties.getProperty("browser"); // Fetch browser from config.properties
+            BaseClass.setBrowser(browser);
+            BaseClass.initializeDriver();
+            this.driver = BaseClass.getDriver();
         }
     }
-
-    // Getter methods to access the properties
-    
-
-    public String getUrl() {
-        return properties.getProperty("url"); // Ensure properties is not null
+    public void launchUrl() {
+        driver.get(properties.getProperty("url")); // Fetch URL from config.properties
     }
 
-    public String getUsername() {
+    public String getPropUsername() {
         return properties.getProperty("Username");
     }
 
-    public String getPassword() {
+    public String getPropPassword() {
         return properties.getProperty("Password");
     }
 
+    public String getPropRole() {
+        return properties.getProperty("Role");
+    }
+
     public LoginPage getLoginPage() {
-        return loginPage;
+        return (loginPage == null) ? loginPage = new LoginPage(driver) : loginPage;
     }
+
+    public DashboardPage getDashboardPage() {
+        return (dashboardPage == null) ? dashboardPage = new DashboardPage(driver) : dashboardPage;
+    }
+
+    public ProgramPage getProgramPage() {
+        return (programPage == null) ? programPage = new ProgramPage(driver) : programPage;
+    }
+
+    public BatchPage getBatchPage() {
+        return (batchPage == null) ? batchPage = new BatchPage(driver) : batchPage;
+    }
+
     public ClassPage getClassPage() {
-    	if (classPage == null) {
-            classPage = new ClassPage(driver);  // Ensures classPage is not null before returning
-        }
-        return classPage;
-    
+        return (classPage == null) ? classPage = new ClassPage(driver) : classPage;
     }
 
-    // Method to launch the browser (if required, use for setup)
-    public WebDriver launchBrowser() throws FileNotFoundException {    	
-    	
-    	if (driver == null) {    		
-            driver = new ChromeDriver();
-            driver.manage().window().maximize();
-        }    	
-        return driver;
-    }
-    public WebDriver getDriver() {
-        if (driver == null) {
-            initializeDriver(); // Ensure driver is initialized before use
-        }
-        return driver;
+    public LogoutPage getLogoutPage() {
+        return (logoutPage == null) ? logoutPage = new LogoutPage(driver) : logoutPage;
     }
 
- 
- 
- public void setBrowserName(String browserName) {
-     TestContextSetup.browser = browserName; // Store browser name
- }
+    public void quitDriver() {
+        BaseClass.quitDriver();
+    }
 }

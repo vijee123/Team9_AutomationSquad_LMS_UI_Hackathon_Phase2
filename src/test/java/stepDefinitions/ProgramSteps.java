@@ -22,9 +22,9 @@ public class ProgramSteps {
 	private ProgramPage programPage;
 	private String nameCheck;
 	
-	public ProgramSteps(TestContextSetup context) {
+	public ProgramSteps(TestContextSetup context) throws InterruptedException {
 		this.context = context;
-		this.programPage = context.getProgramPage();
+		//this.programPage = context.getProgramPage();
 		this.loginPage = context.getLoginPage();
 	}
 }

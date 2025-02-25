@@ -16,7 +16,7 @@ public class LogoutSteps {
 	
 	public LogoutSteps(TestContextSetup context) {
 		this.context = context;
-		logoutPage = context.getLogoutPage();
+		//logoutPage = context.getLogoutPage();
 	}
 	}
 
