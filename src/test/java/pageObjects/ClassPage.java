@@ -17,6 +17,8 @@ public   class ClassPage extends BasePage   {
 		super(driver);
 		// TODO Auto-generated constructor stub
 	}
+	@FindBy(xpath = "//button[@class='mat-focus-indicator mat-menu-trigger mat-button mat-button-base']//span[contains(text(),'Class')]")
+	private WebElement classButton;
 	@FindBy(xpath="//span[@class='p-input-icon-left']//input[@id='filterGlobal']")
 	private WebElement searchBar;
 	@FindBy(xpath=("//tbody/tr[1]/td[1]/p-tablecheckbox[1]/div[1]/div[2]"))
