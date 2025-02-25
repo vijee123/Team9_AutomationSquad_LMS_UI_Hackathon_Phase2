@@ -21,7 +21,7 @@ import io.cucumber.testng.CucumberOptions;
 			        "rerun:target/failed_scenarios.txt"
 			    },
 			    monochrome = false,
-			    //tags="@classsenario",
+			    tags="@login",
 			    dryRun = false
 			   
 			)
