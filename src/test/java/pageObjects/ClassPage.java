@@ -48,6 +48,15 @@ public   class ClassPage extends BasePage   {
 private void login() {
 	// TODO Auto-generated method stub
 			 String url = "https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/";
+
+	public void clickClassButton() {
+					login();
+					JavascriptExecutor  js= (JavascriptExecutor ) driver;
+		            js.executeScript("window.scrollBy(0,-300);");
+		            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30)); 
+		            wait.until(ExpectedConditions.visibilityOf(classButton)).click();
+	
+}
 			public boolean ismanageClassTextDisplayed() {
 		
 			    return manageClassText.isDisplayed();
