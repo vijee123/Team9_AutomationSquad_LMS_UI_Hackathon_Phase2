@@ -37,13 +37,13 @@ Feature: Class Module
   @classPagination2
   Scenario: Verify Last page link(>>)
     #Given Admin is on the Manage Class page
-    When Admin clicks Last page link
+    When Admins clicks Last page link
     Then Admin should see the last page record on the table with Next page link are disabled
 
   @classPagination3
   Scenario: Verify First page link(<)
     Given Admin is on last page of class table
-    When Admin clicks First page link
+    When Admins clicks First page link
     Then Admin should see the previous page record on the table with pagination has previous page link enabled
 
   @classPagination4
@@ -91,8 +91,6 @@ Feature: Class Module
   #Scenario: Validate logout
   #When Admin clicks on the logout in the menu bar
   #Then Admin should be redirected to login page "Please login to LMS application"
-
-
   Scenario: Validating Edit Disable option
     When Admin clicks on the edit icon
     Then Admin should see batch name field is disabled
