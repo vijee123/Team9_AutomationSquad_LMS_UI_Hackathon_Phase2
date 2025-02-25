@@ -124,7 +124,7 @@ public class LoginPage extends BasePage {
 	@FindBy (xpath = "//img[@class='images']") 
 	WebElement image;
 	
-	
+		
 
 	//-------------------------------Methods------------------------------------
 	
@@ -143,6 +143,10 @@ public class LoginPage extends BasePage {
 	
 	public boolean dashboardLabelVisibility() {
 		return true;
+	}
+	
+	public void clickBrowserBack() {
+	  driver.navigate().back();	
 	}
 	
 	
