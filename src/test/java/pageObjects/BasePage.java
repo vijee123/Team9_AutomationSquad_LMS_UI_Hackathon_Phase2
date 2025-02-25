@@ -222,4 +222,11 @@ public class BasePage {
 		}
 		return footer;
 	}
+	
+	
+	public String getText(WebElement element) {
+		WebElement textElement = new WebDriverWait(driver, Duration.ofSeconds(10))
+				.until(ExpectedConditions.visibilityOf(element));
+		return textElement.getText();
+	}
 }
