@@ -132,7 +132,7 @@ private void login() {
 		            System.out.println("Batch Name field is NOT disabled.");
 		        }
 				return isDisabled;
-		    }
+		}
 		public  void isClassTopicFieldDisabled() {
 			editIcon.click();
 			System.out.println("class topic field is disabled");
