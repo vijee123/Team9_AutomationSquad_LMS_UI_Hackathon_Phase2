@@ -17,23 +17,6 @@ public   class ClassPage extends BasePage   {
 		super(driver);
 		// TODO Auto-generated constructor stub
 	}
-	@FindBy(xpath = "//input[@id='username']")
-	private WebElement userNameTextBox;
-	@FindBy(xpath = "//input[@id='password']")
-	private WebElement passwordTextBox;
-	@FindBy(xpath ="//div[@class='mat-form-field-infix ng-tns-c158-2']//mat-select[@id='mat-select-0']")
-	private WebElement dropDownClick;
-	@FindBy(xpath ="//div[@id='cdk-overlay-0']//span[@class='mat-option-text']")
-	private WebElement dropDownOption;
-	@FindBy(xpath = "//button[@id='login']")
-	private WebElement loginBtn;
-	@FindBy(xpath = "//button[@class='mat-focus-indicator mat-menu-trigger mat-button mat-button-base']//span[contains(text(),'Class')]")
-	private WebElement classButton;
-	@FindBy(xpath = "//div[@class='box' and normalize-space(text())='Manage Class']")
-	private WebElement manageClassText;
-	@FindBy(xpath="//span[@class='p-dialog-header-close-icon ng-tns-c81-17 pi pi-times']")
-	private WebElement cancel;
-	////////////////////////////
 	@FindBy(xpath="//span[@class='p-input-icon-left']//input[@id='filterGlobal']")
 	private WebElement searchBar;
 	@FindBy(xpath=("//tbody/tr[1]/td[1]/p-tablecheckbox[1]/div[1]/div[2]"))
@@ -65,40 +48,7 @@ public   class ClassPage extends BasePage   {
 private void login() {
 	// TODO Auto-generated method stub
 			 String url = "https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/";
-			// Initialize the WebDriver
-		        WebDriverWait wait = new WebDriverWait(driver,  Duration.ofSeconds(10));
-
-		        // Open the browser and navigate to the specified URL
-		        // String url = "https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/";
-		        driver.get(url);
-
-		        // Maximize the browser window
-		        driver.manage().window().maximize();
-
-		        // Find and interact with the login elements
-		        WebElement usernameField = userNameTextBox;
-		        WebElement passwordField = passwordTextBox;
-		        WebElement loginButton = loginBtn;
-		        String username = "sdetnumpyninja@gmail.com"; 
-			    String password = "Feb@2025";
-
-		        // Enter the username and password
-		        usernameField.sendKeys(username);
-		        passwordField.sendKeys(password);
-		        dropDownClick.click();
-				wait.until(ExpectedConditions.elementToBeClickable(dropDownOption)).click();
-		        // Click the login button
-		        loginButton.click();
-}
-		        public void clickClassButton() {
-					login();
-					JavascriptExecutor  js= (JavascriptExecutor ) driver;
-		            js.executeScript("window.scrollBy(0,-300);");
-		            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30)); 
-		            wait.until(ExpectedConditions.visibilityOf(classButton)).click();
-	
-}
-		public boolean ismanageClassTextDisplayed() {
+			public boolean ismanageClassTextDisplayed() {
 		
 			    return manageClassText.isDisplayed();
 		}
