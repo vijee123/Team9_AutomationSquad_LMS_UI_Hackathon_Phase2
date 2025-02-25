@@ -43,8 +43,9 @@ public class BasePage {
 		Actions myAction = new Actions(driver);
 		myAction.keyDown(Keys.ESCAPE).keyUp(Keys.ESCAPE).perform();
 	}
+	
 	public void waitForElementVisibility(WebElement element) {
-		WebDriverWait myWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+		WebDriverWait myWait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		myWait.until(ExpectedConditions.visibilityOf(element));
 	}
 	
@@ -99,12 +100,10 @@ public class BasePage {
 				List<org.languagetool.rules.RuleMatch> matches = langTool.check(pageText);
 				if (matches.isEmpty()) {
 					System.out.println("No spelling mistakes found.");
-				} else {
+					} else {
 					for (org.languagetool.rules.RuleMatch match : matches) {
 						System.out.println("Spelling mistakes found with word: " + match);
-					//	System.out.println("Context: " + match.getShortMessage());
-					//  System.out.println("Potential typo at line " + match.getLine() + ", column " + match.getColumn());
-						System.out.println("Suggested correction is: "
+				      	System.out.println("Suggested correction is: "
 								+ org.apache.commons.lang3.StringUtils.join(match.getSuggestedReplacements()));
 					}
 				}
