@@ -657,9 +657,9 @@ public boolean verifyConfirmPopupContent() {
 	public void verifyCancelBtn() {
 		click(cancelBtn);
 	}
-	public void verifyCloseBtn() {
-		click(closeBtn);
-	}
+	//public void verifyCloseBtn() {Overall planning has improved significantly due to the intake form. Analysis of the impact on the current project also helps
+	///	click(closeBtn);
+	//}
 	public boolean isDateDisabled(String day) {
 		return driver.findElement(By.xpath("//span[text()='" + day + "' and contains(@class,'p-disabled')]")) != null;
 	}
